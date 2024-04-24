@@ -29,4 +29,9 @@ public class HelloController {
                 </html>
                 """;
     }
+
+    @RequestMapping("/view")
+    public String jspHello() {
+        return "hello";
+    }
 }
