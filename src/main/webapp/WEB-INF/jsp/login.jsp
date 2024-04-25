@@ -5,5 +5,10 @@
     </head>
     <body>
     <h2>Welcome ${name} to the login page!</h2>
+    <form method="post">
+        Name: <input type="text" name="name"/><br/>
+        Password: <input type="password" name="password"/><br/>
+        <input type="submit"/>
+    </form>
     </body>
 </html>
