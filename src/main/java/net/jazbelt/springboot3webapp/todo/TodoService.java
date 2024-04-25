@@ -5,11 +5,14 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 @Service
 public class TodoService {
     private static List<Todo> todos;
+
+    private final AtomicInteger todosCount = new AtomicInteger(3);
 
     static {
         todos = new ArrayList<>();
@@ -29,5 +32,10 @@ public class TodoService {
         return todos.stream()
                 .filter(x -> x.getUsername().equals(username))
                 .collect(Collectors.toList());
+    }
+
+    public void addTodo(String username, String description, LocalDate targetDate) {
+        todos.add(new Todo(todosCount.incrementAndGet(),
+                username, description, targetDate, false));
     }
 }

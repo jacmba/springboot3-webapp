@@ -32,6 +32,7 @@
                     </c:forEach>
                 </tbody>
             </table>
+            <a href="todos/add" class="btn btn-success">Add ToDo</a>
         </div>
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"

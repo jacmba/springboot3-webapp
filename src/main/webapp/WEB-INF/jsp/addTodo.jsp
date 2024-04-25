@@ -1,4 +1,4 @@
-<!doctype html>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <html>
     <head>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
@@ -9,15 +9,14 @@
 
              crossorigin="anonymous">
 
-        <title>Login page</title>
+        <title>ToDo creation</title>
     </head>
     <body>
         <div class="container">
-            <h2>Welcome ${name} to the login page!</h2>
-            <pre>${error}</pre>
+            <h2>Enter ToDo details</h2>
+
             <form method="post">
-                Name: <input type="text" name="name"/>
-                Password: <input type="password" name="password"/>
+                Description: <input type="text" name="description"/>
                 <input type="submit" class="btn btn-success"/>
             </form>
         </div>
