@@ -54,4 +54,15 @@ public class TodoController {
                 "redirectWithRedirectedPrefix");
         return "redirect:/todos";
     }
+
+    @GetMapping("/delete/{id}")
+    public String getDeleteTodo(@PathVariable int id,
+                                 ModelMap model) {
+        model.addAttribute("attribute",
+                "redirectWithRedirectedPrefix");
+        logger.info(String.format("Deleting ToDo with id %d", id));
+
+        service.deleteTodo(id);
+        return "redirect:/todos";
+    }
 }

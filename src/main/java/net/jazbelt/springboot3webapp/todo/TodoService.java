@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
@@ -37,5 +38,9 @@ public class TodoService {
     public void addTodo(String username, String description, LocalDate targetDate) {
         todos.add(new Todo(todosCount.incrementAndGet(),
                 username, description, targetDate, false));
+    }
+
+    public void deleteTodo(int id) {
+        todos.removeIf(x -> x.getId() == id);
     }
 }
