@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @SessionAttributes("name")
@@ -50,19 +51,46 @@ public class TodoController {
             return "addTodo";
         }
         service.addTodo(name, todo.getDescription(), todo.getTargetDate());
-        model.addAttribute("attribute",
-                "redirectWithRedirectedPrefix");
-        return "redirect:/todos";
+        return redirectToList(model);
     }
 
     @GetMapping("/delete/{id}")
     public String getDeleteTodo(@PathVariable int id,
                                  ModelMap model) {
-        model.addAttribute("attribute",
-                "redirectWithRedirectedPrefix");
         logger.info(String.format("Deleting ToDo with id %d", id));
 
         service.deleteTodo(id);
+        return redirectToList(model);
+    }
+
+    @GetMapping("/update/{id}")
+    public String getUpdateTodo(@PathVariable int id,
+                                ModelMap model) {
+        Optional<Todo> todo = service.findById(id);
+
+        if (todo.isPresent()) {
+            model.put("todo", todo);
+            return "updateTodo";
+        }
+
+        return redirectToList(model);
+    }
+
+    @PostMapping("/update/{id}")
+    public String postUpdateTodo(ModelMap model,
+                                 @Valid Todo todo,
+                                 BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "updateTodo";
+        }
+
+        service.updateTodo(todo);
+        return redirectToList(model);
+    }
+
+    private String redirectToList(ModelMap model) {
+        model.addAttribute("attribute",
+                "redirectWithRedirectedPrefix");
         return "redirect:/todos";
     }
 }

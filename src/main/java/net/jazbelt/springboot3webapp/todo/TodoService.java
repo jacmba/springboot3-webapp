@@ -35,6 +35,12 @@ public class TodoService {
                 .collect(Collectors.toList());
     }
 
+    public Optional<Todo> findById(int id) {
+        return todos.stream()
+                .filter(x -> x.getId() == id)
+                .findFirst();
+    }
+
     public void addTodo(String username, String description, LocalDate targetDate) {
         todos.add(new Todo(todosCount.incrementAndGet(),
                 username, description, targetDate, false));
@@ -42,5 +48,11 @@ public class TodoService {
 
     public void deleteTodo(int id) {
         todos.removeIf(x -> x.getId() == id);
+    }
+
+    public void updateTodo(Todo todo) {
+        todos.stream()
+                .filter(x -> x.getId() == todo.getId())
+                .forEach(x -> x.setDescription(todo.getDescription()));
     }
 }
