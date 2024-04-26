@@ -1,4 +1,6 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+
 <html>
     <head>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
@@ -15,10 +17,18 @@
         <div class="container">
             <h2>Enter ToDo details</h2>
 
-            <form method="post">
-                Description: <input type="text" name="description"/>
+            <form:form method="post" modelAttribute="todo">
+                Description: <form:input type="text" name="description"
+                    placeholder="Enter the description of your ToDo here"
+                    required="required"
+                    path="description"/>
+
+                <form:errors path="description" cssClass="text-warning" />
+                <form:input type="hidden" path="id" />
+                <form:input type="hidden" path="done" />
+                <form:input type="hidden" path="targetDate" />
                 <input type="submit" class="btn btn-success"/>
-            </form>
+            </form:form>
         </div>
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"

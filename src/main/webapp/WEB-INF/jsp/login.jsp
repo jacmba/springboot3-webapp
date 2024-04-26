@@ -1,4 +1,7 @@
 <!doctype html>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+
 <html>
     <head>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
@@ -14,12 +17,17 @@
     <body>
         <div class="container">
             <h2>Welcome ${name} to the login page!</h2>
-            <pre>${error}</pre>
-            <form method="post">
-                Name: <input type="text" name="name"/>
-                Password: <input type="password" name="password"/>
+            <pre class="text-warning">${error}</pre>
+            <form:form method="post" modelAttribute="loginData">
+                Name: <form:input type="text" name="name" placeholder="Your user name"
+                    required="required" path="user"/>
+                <form:errors path="user" cssClass="text-warning" />
+                Password: <input type="password" name="password"
+                    placeholder="Your password here" required="required"
+                    path="password"/>
+                <form:errors path="password" cssClass="text-warning" />
                 <input type="submit" class="btn btn-success"/>
-            </form>
+            </form:form>
         </div>
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"

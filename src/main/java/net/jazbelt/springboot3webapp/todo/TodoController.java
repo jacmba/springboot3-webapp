@@ -1,10 +1,12 @@
 package net.jazbelt.springboot3webapp.todo;
 
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -33,15 +35,23 @@ public class TodoController {
     }
 
     @GetMapping("/add")
-    public String getNewTodoPage() {
+    public String getNewTodoPage(@SessionAttribute String name, ModelMap model) {
+        Todo todo = new Todo(0, name, "",
+                LocalDate.now().plusYears(1), false);
+        model.put("todo", todo);
         return "addTodo";
     }
 
     @PostMapping("/add")
-    public String postNewTodo(@RequestParam String description,
-                              @SessionAttribute String name,
-                              ModelMap model) {
-        service.addTodo(name, description, LocalDate.now().plusYears(1));
-        return getAllTodos(name, model);
+    public String postNewTodo(@SessionAttribute String name,
+                              ModelMap model, @Valid Todo todo,
+                              BindingResult result) {
+        if(result.hasErrors()) {
+            return "addTodo";
+        }
+        service.addTodo(name, todo.getDescription(), todo.getTargetDate());
+        model.addAttribute("attribute",
+                "redirectWithRedirectedPrefix");
+        return "redirect:/todos";
     }
 }
