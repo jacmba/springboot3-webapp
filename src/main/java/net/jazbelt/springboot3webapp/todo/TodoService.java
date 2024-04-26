@@ -53,6 +53,9 @@ public class TodoService {
     public void updateTodo(Todo todo) {
         todos.stream()
                 .filter(x -> x.getId() == todo.getId())
-                .forEach(x -> x.setDescription(todo.getDescription()));
+                .forEach(x -> {
+                    x.setDescription(todo.getDescription());
+                    x.setTargetDate(todo.getTargetDate());
+                });
     }
 }

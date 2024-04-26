@@ -40,7 +40,7 @@ public class TodoController {
         Todo todo = new Todo(0, name, "",
                 LocalDate.now().plusYears(1), false);
         model.put("todo", todo);
-        return "addTodo";
+        return "todo";
     }
 
     @PostMapping("/add")
@@ -48,7 +48,7 @@ public class TodoController {
                               ModelMap model, @Valid Todo todo,
                               BindingResult result) {
         if(result.hasErrors()) {
-            return "addTodo";
+            return "todo";
         }
         service.addTodo(name, todo.getDescription(), todo.getTargetDate());
         return redirectToList(model);
@@ -70,7 +70,7 @@ public class TodoController {
 
         if (todo.isPresent()) {
             model.put("todo", todo);
-            return "updateTodo";
+            return "todo";
         }
 
         return redirectToList(model);
@@ -81,7 +81,7 @@ public class TodoController {
                                  @Valid Todo todo,
                                  BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return "updateTodo";
+            return "todo";
         }
 
         service.updateTodo(todo);
