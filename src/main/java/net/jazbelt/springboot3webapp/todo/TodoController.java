@@ -37,7 +37,7 @@ public class TodoController {
 
     @GetMapping("/add")
     public String getNewTodoPage(@SessionAttribute String name, ModelMap model) {
-        Todo todo = new Todo(0, name, "",
+        Todo todo = new Todo(name, "",
                 LocalDate.now().plusYears(1), false);
         model.put("todo", todo);
         return "todo";
