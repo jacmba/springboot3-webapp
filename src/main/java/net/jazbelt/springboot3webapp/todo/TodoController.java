@@ -1,6 +1,7 @@
 package net.jazbelt.springboot3webapp.todo;
 
 import jakarta.validation.Valid;
+import net.jazbelt.springboot3webapp.utils.AppUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
-@SessionAttributes("name")
 @RequestMapping("todos")
 public class TodoController {
 
@@ -28,7 +28,8 @@ public class TodoController {
     }
 
     @GetMapping
-    public String getAllTodos(@SessionAttribute String name,  ModelMap model) {
+    public String getAllTodos(ModelMap model) {
+        String name = AppUtils.getLoggedUser();
         logger.info(String.format("Retrieveving list of ToDos for %s", name));
         List<Todo> todos = service.findByUserName(name);
         model.put("todos", todos);
@@ -36,7 +37,8 @@ public class TodoController {
     }
 
     @GetMapping("/add")
-    public String getNewTodoPage(@SessionAttribute String name, ModelMap model) {
+    public String getNewTodoPage(ModelMap model) {
+        String name = AppUtils.getLoggedUser();
         Todo todo = new Todo(name, "",
                 LocalDate.now().plusYears(1), false);
         model.put("todo", todo);
@@ -44,12 +46,12 @@ public class TodoController {
     }
 
     @PostMapping("/add")
-    public String postNewTodo(@SessionAttribute String name,
-                              ModelMap model, @Valid Todo todo,
+    public String postNewTodo(ModelMap model, @Valid Todo todo,
                               BindingResult result) {
         if(result.hasErrors()) {
             return "todo";
         }
+        String name = AppUtils.getLoggedUser();
         service.addTodo(name, todo.getDescription(), todo.getTargetDate());
         return redirectToList(model);
     }
