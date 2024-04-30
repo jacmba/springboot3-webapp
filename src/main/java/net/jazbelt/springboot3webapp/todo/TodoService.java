@@ -78,4 +78,13 @@ public class TodoService {
 
         repository.save(todo);
     }
+
+    public void toggleTodo(int id) {
+        Optional<Todo> possibleTodo = repository.findById(id);
+        if (possibleTodo.isPresent()) {
+            Todo todo = possibleTodo.get();
+            todo.setDone(!todo.isDone());
+            repository.save(todo);
+        }
+    }
 }

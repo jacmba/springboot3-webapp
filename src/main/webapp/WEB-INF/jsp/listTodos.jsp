@@ -18,7 +18,11 @@
                     <td>${todo.id}</td>
                     <td>${todo.description}</td>
                     <td>${todo.targetDate}</td>
-                    <td>${todo.done}</td>
+                    <td>
+                        <input type="checkbox" name ="todoDone"
+                            id="todoDone-${todo.id}"
+                            ${todo.done ? "checked" : ""}/>
+                    </td>
                     <td>
                         <a href="/todos/delete/${todo.id}"
                             class="btn btn-warning">
@@ -39,3 +43,14 @@
 </div>
 
 <%@include file="common/footer.jspf"%>
+
+<script>
+$(document).ready(() => {
+});
+
+$('input[name="todoDone"]').click(function() {
+    const [, todoId] = this.id.split('-');
+    const url = '/todos/toggle/' + todoId;
+    window.location.href = url;
+});
+</script>

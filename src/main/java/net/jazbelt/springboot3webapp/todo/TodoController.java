@@ -90,6 +90,12 @@ public class TodoController {
         return redirectToList(model);
     }
 
+    @GetMapping("toggle/{id}")
+    public String getToggleTodo(@PathVariable int id, ModelMap model) {
+        service.toggleTodo(id);
+        return redirectToList(model);
+    }
+
     private String redirectToList(ModelMap model) {
         model.addAttribute("attribute",
                 "redirectWithRedirectedPrefix");
